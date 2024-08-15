@@ -19,7 +19,8 @@ import static com.swx.sapiclientsdk.utils.SignUtils.genSign;
  */
 public class SapiClient {
 
-    private static final String GATEWAY_HOST = "http://localhost:8090";
+//    private static final String GATEWAY_HOST = "http://sapi-gateway:8090";
+    private static final String GATEWAY_HOST = "http://10.15.25.23:8090";
 
     private String accessKey;
     private String secretKey;

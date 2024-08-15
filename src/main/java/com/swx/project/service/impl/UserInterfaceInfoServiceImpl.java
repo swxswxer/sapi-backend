@@ -10,6 +10,7 @@ import com.swx.project.service.UserInterfaceInfoService;
 import com.swx.sapicommon.model.entity.UserInterfaceInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +21,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoMapper, UserInterfaceInfo>
         implements UserInterfaceInfoService {
+
+    @Autowired
+    private UserInterfaceInfoMapper userInterfaceInfoMapper;
+
 
     @Override
     public void validUserInterfaceInfo(UserInterfaceInfo userInterfaceInfo, boolean add) {
@@ -85,6 +90,12 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
         }
         return true;
 
+    }
+
+
+    @Override
+    public Integer getTotalNumByInterfaceId(Long interfaceInfoId) {
+        return userInterfaceInfoMapper.getTotalNumByInterfaceId(interfaceInfoId);
     }
 
 

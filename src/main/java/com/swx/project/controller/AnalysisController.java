@@ -11,12 +11,15 @@ import com.swx.project.mapper.InterfaceInfoMapper;
 import com.swx.project.mapper.UserInterfaceInfoMapper;
 import com.swx.project.model.vo.InterfaceInfoVO;
 import com.swx.project.service.InterfaceInfoService;
+import com.swx.project.service.UserInterfaceInfoService;
 import com.swx.sapicommon.model.entity.InterfaceInfo;
 import com.swx.sapicommon.model.entity.UserInterfaceInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -34,6 +37,9 @@ public class AnalysisController {
     private  UserInterfaceInfoMapper userInterfaceInfoMapper;
     @Resource
     private InterfaceInfoService interfaceInfoService;
+    @Autowired
+    private UserInterfaceInfoService userInterfaceInfoService;
+
 
     @GetMapping("/top/interface/invoke")
     @AuthCheck(mustRole = "admin")
@@ -58,5 +64,14 @@ public class AnalysisController {
         return ResultUtils.success(interfaceInfoVOList);
 
     }
+
+
+    @GetMapping("/totalNum")
+    public Integer getTotalNumById( Long interfaceInfoId) {
+        return userInterfaceInfoService.getTotalNumByInterfaceId(interfaceInfoId);
+    }
+
+
+
 
 }

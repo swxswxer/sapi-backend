@@ -2,6 +2,7 @@ package com.swx.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.swx.sapicommon.model.entity.UserInterfaceInfo;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -15,7 +16,8 @@ public interface UserInterfaceInfoMapper extends BaseMapper<UserInterfaceInfo> {
 
     List<UserInterfaceInfo> listTopInvokeInterfaceInfo(int limit);
 
-
+    @Select("SELECT SUM(totalNum) FROM user_interface_info WHERE interfaceInfoId = #{interfaceInfoId} AND isDelete = 0")
+    Integer getTotalNumByInterfaceId(Long interfaceInfoId);
 }
 
 

@@ -1,15 +1,11 @@
 # Docker 镜像构建
-# @author <a href="https://github.com/liyupi">程序员鱼皮</a>
-# @from <a href="https://yupi.icu">编程导航知识星球</a>
-FROM maven:3.5-jdk-8-alpine as builder
+FROM openjdk:11-jre-slim
 
-# Copy local code to the container image.
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
 
-# Build a release artifact.
-RUN mvn package -DskipTests
+COPY ./target/sapi-backend-0.0.1-SNAPSHOT.jar /tmp/sapi-backend-0.0.1-SNAPSHOT.jar
 
-# Run the web service on container startup.
-CMD ["java","-jar","/app/target/sapi-interface-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]
+# 暴露端口
+EXPOSE 7529
+
+# 指定容器启动时运行的指令
+ENTRYPOINT ["java", "-jar", "/tmp/sapi-backend-0.0.1-SNAPSHOT.jar"]

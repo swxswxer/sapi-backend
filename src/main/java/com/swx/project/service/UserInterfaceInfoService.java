@@ -16,4 +16,6 @@ public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
 
 
     public boolean isEmptyForUserInfaceInfo(long interfaceInfoId, long userId);
+
+    Integer getTotalNumByInterfaceId(Long interfaceInfoId);
 }
