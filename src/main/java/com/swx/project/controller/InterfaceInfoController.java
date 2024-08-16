@@ -203,6 +203,12 @@ public class InterfaceInfoController {
         return ResultUtils.success(interfaceInfoPage);
     }
 
+    @GetMapping("/count")
+    public BaseResponse<Integer> getCount(){
+        long count = interfaceInfoService.count();
+        return ResultUtils.success((int) count);
+    }
+
     // endregion
 
     /**

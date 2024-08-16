@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
-* @author yanghaoxin
+* @author swxswxer
 * @description 针对表【user_interface_info(用户调用接口关系)】的数据库操作Mapper
 * @createDate 2024-08-06 16:58:04
 * @Entity com.swx.project.model.entity.UserInterfaceInfo

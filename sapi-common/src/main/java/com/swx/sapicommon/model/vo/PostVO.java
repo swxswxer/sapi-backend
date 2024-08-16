@@ -8,7 +8,7 @@ import com.swx.sapicommon.model.entity.Post;
 /**interface_info
  * 帖子视图
  *
- * @author yupi
+ * @author swxswxer
  * @TableName product
  */
 @EqualsAndHashCode(callSuper = true)

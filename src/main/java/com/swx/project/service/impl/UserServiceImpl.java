@@ -24,7 +24,7 @@ import static com.swx.project.constant.UserConstant.USER_LOGIN_STATE;
 /**
  * 用户服务实现类
  *
- * @author yupi
+ * @author swxswxer
  */
 @Service
 @Slf4j

@@ -3,7 +3,7 @@ package com.swx.project.common;
 /**
  * 错误码
  *
- * @author yupi
+ * @author swxswxer
  */
 public enum ErrorCode {
 

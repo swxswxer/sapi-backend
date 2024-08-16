@@ -3,7 +3,7 @@ package com.swx.project.constant;
 /**
  * 用户常量
  *
- * @author yupi
+ * @author swxswxer
  */
 public interface UserConstant {
 

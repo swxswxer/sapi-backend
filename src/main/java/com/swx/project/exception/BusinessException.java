@@ -5,7 +5,7 @@ import com.swx.project.common.ErrorCode;
 /**
  * 自定义异常类
  *
- * @author yupi
+ * @author swxswxer
  */
 public class BusinessException extends RuntimeException {
 

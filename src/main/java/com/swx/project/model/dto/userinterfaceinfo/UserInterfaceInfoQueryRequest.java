@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * 查询请求
  *
- * @author yupi
+ * @author swxswxer
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

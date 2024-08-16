@@ -7,7 +7,7 @@ import com.swx.sapicommon.model.entity.User;
 /**
  * 用户服务
  *
- * @author yupi
+ * @author swxswxer
  */
 public interface InnerUserService  {
 
