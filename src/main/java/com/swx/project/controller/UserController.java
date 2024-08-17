@@ -9,11 +9,17 @@ import com.swx.project.common.ErrorCode;
 import com.swx.project.common.ResultUtils;
 import com.swx.project.exception.BusinessException;
 import com.swx.project.model.dto.user.*;
+import com.swx.project.model.vo.AkSkVO;
 import com.swx.project.model.vo.UserVO;
+import com.swx.project.service.InterfaceInfoService;
+import com.swx.project.service.UserInterfaceInfoService;
 import com.swx.project.service.UserService;
+import com.swx.sapicommon.model.entity.InterfaceInfo;
 import com.swx.sapicommon.model.entity.User;
+import com.swx.sapicommon.model.entity.UserInterfaceInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -32,6 +38,15 @@ public class UserController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private InterfaceInfoService interfaceInfoService;
+    @Resource
+    private  UserInterfaceInfoService userInterfaceInfoService;
+
+    /**
+     * 盐值，混淆密码
+     */
+    private static final String SALT = "swx";
 
     // region 登录相关
 
@@ -70,6 +85,7 @@ public class UserController {
         }
         String userAccount = userLoginRequest.getUserAccount();
         String userPassword = userLoginRequest.getUserPassword();
+
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -234,6 +250,65 @@ public class UserController {
         userVOPage.setRecords(userVOList);
         return ResultUtils.success(userVOPage);
     }
+
+
+    /**
+     * 获取登陆用户ak sk
+     *
+     * @param userPassword
+     * @param request
+     * @return
+     */
+    @GetMapping("/getAksk")
+    public BaseResponse<AkSkVO> getAKSK(String userPassword, HttpServletRequest request) {
+        User loginUser = userService.getLoginUser(request);
+        if (loginUser == null) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
+        if(!encryptPassword.equals(loginUser.getUserPassword())){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR,"密码错误123123");
+        }
+        AkSkVO akSkVO = new AkSkVO();
+        akSkVO.setAccessKey(loginUser.getAccessKey());
+        akSkVO.setSecretKey(loginUser.getSecretKey());
+        return ResultUtils.success(akSkVO);
+    }
+
+    /**
+     * 获取用户某接口剩余调用次数
+     *
+     * @param interfaceInfoId
+     * @param request
+     * @return
+     */
+    @GetMapping("/getInterfaceLeftNum")
+    public BaseResponse<Integer> getInterfaceLeftNumByInterfaceId(int interfaceInfoId, HttpServletRequest request) {
+        User loginUser = userService.getLoginUser(request);
+        if (loginUser == null) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        //查询接口是否存在
+        InterfaceInfo interfaceInfo = interfaceInfoService.getById(interfaceInfoId);
+        if (interfaceInfo==null){
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR,"接口不存在");
+        }
+        QueryWrapper<UserInterfaceInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("interfaceInfoId", interfaceInfoId);
+        queryWrapper.eq("userId", loginUser.getId());
+        UserInterfaceInfo userInterfaceInfo = userInterfaceInfoService.getOne(queryWrapper);
+        Integer leftNum ;
+        if (userInterfaceInfo==null){
+            leftNum = 50;
+        }
+        else {
+            leftNum = userInterfaceInfo.getLeftNum();
+        }
+        return ResultUtils.success(leftNum);
+    }
+
+
+
 
     // endregion
 }
