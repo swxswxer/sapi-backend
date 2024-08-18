@@ -5,7 +5,9 @@
 
 **😀 作为用户你可以在本网站注册并登陆来在线调用尝试各种有趣的API。** 
 
-**💻 作为开发者 我们提供了[客户端SDK: SAPI-Client-SDK](https://github.com/swxswxer/sapi-backend/tree/main/sapi-client-sdk)， 通过开发者凭证(AK,SK)即可将轻松集成接口到您的项目中，实现更高效的开发和调用。**
+**💻 作为开发者 我们提供了[客户端SDK: SAPI-Client-SDK](https://github.com/swxswxer/sapi-client-sdk)， 通过开发者凭证(AK,SK)即可将轻松集成接口到您的项目中，实现更高效的开发和调用。**
+
+**💻 SDK使用教程 请移步[sapi-client-sdk](https://github.com/swxswxer/sapi-client-sdk)**
 
 # 目录结构
 
@@ -15,7 +17,7 @@
 | **🏘️ [sapi-common](https://github.com/swxswxer/sapi-backend/tree/main/sapi-common)** | 公共服务模块     |
 | **🕸️ [sapi-gateway](https://github.com/swxswxer/sapi-gateway)** | 网关模块         |
 | **🔗 [sapi-interface](https://github.com/swxswxer/sapi-interface)** | 接口模块         |
-| **🛠 [sapi-client-sdk](https://github.com/swxswxer/sapi-backend/tree/main/sapi-client-sdk)** | 开发者调用sdk    |
+| **🛠 [sapi-client-sdk](https://github.com/swxswxer/sapi-client-sdk)** | 开发者调用sdk    |
 
 # 网站导航 
 
