@@ -4,10 +4,9 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONUtil;
+
 import com.google.gson.Gson;
-import com.swx.sapiclientsdk.model.City;
-import com.swx.sapiclientsdk.model.User;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,81 +38,27 @@ public class SapiClient {
 
         String nonce = RandomUtil.randomNumbers(4);
         hashMap.put("nonce", nonce);
+//        hashMap.put("realityUrl", realityUrl);
         hashMap.put("body", body);
         hashMap.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
         hashMap.put("sign", genSign(nonce, secretKey));
         return hashMap;
     }
 
-
-
-
-    public String getNameByGet(String name) {
-        HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("name", name);
-        String result = HttpUtil.get(GATEWAY_HOST+"/api/name/", paramMap);
-        System.out.println("result = " + result);
-        return result;
-    }
-
-    public String getUsernameByPost(String requestParams) {
-//        String json = JSONUtil.toJsonStr(user);
-        String json = requestParams;
-        HttpResponse httpResponse = HttpRequest.post(GATEWAY_HOST+"/api/name/user")
-                .addHeaders(getHeaderMap(json))
-                .body(json)
+    public String postInvoke (String url,String requestParams){
+        HttpResponse httpResponse = HttpRequest.post(url)
+                .addHeaders(getHeaderMap(requestParams))
+                .body(requestParams)
                 .execute();
-        System.out.println(httpResponse.getStatus());
-        String result = httpResponse.body();
-        System.out.println("result = " + result);
-        return result;
+        return httpResponse.body();
     }
 
-    public String getWeatherByCity(String requestParams) {
-        Gson gson = new Gson();
-        String json = requestParams;
-        HttpResponse httpResponse = HttpRequest.post(GATEWAY_HOST+"/api/weather/weather")
-                .addHeaders(getHeaderMap(json))
-                .body(json)
+    public String getInvoke (String url,String requestParams){
+        HttpResponse httpResponse = HttpRequest.get(url)
+                .addHeaders(getHeaderMap(requestParams))
+                .body(requestParams)
                 .execute();
-
-        System.out.println(httpResponse.getStatus());
-        String result = httpResponse.body();
-        System.out.println("result = " + result);
-        return result;
+        return httpResponse.body();
     }
-
-    public String getRandomUsername() {
-//        String result = HttpUtil.get(GATEWAY_HOST+"/api/name/randomUsername");
-        HttpResponse httpResponse = HttpRequest.get(GATEWAY_HOST+"/api/name/randomUsername")
-                .addHeaders(getHeaderMap(null))
-                .execute();
-
-        String result = httpResponse.body();
-        System.out.println("result = " + result);
-        return result;
-    }
-
-    public String getRandomLoveTalk() {
-//        String result = HttpUtil.get(GATEWAY_HOST+"/api/name/randomUsername");
-        HttpResponse httpResponse = HttpRequest.get(GATEWAY_HOST+"/api/lovetalk/")
-                .addHeaders(getHeaderMap(null))
-                .execute();
-
-        String result = httpResponse.body();
-        System.out.println("result = " + result);
-        return result;
-    }
-
-    public String getRandomToxicSoups() {
-        HttpResponse httpResponse = HttpRequest.get(GATEWAY_HOST+"/api/toxicsoups/")
-                .addHeaders(getHeaderMap(null))
-                .execute();
-
-        String result = httpResponse.body();
-        System.out.println("result = " + result);
-        return result;
-    }
-
 
 }

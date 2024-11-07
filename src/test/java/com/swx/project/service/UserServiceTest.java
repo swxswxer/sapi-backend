@@ -1,5 +1,6 @@
 package com.swx.project.service;
 
+import com.swx.sapiclientsdk.client.SapiClient;
 import com.swx.sapicommon.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -54,6 +55,14 @@ class UserServiceTest {
         User user = userService.getById(1L);
         Assertions.assertNotNull(user);
     }
+
+    @Test
+    void testSapiClient() {
+        SapiClient tempClient = new SapiClient("swx","yang4869");
+//        String result = tempClient.getRandomLoveTalk();
+//        System.out.println(result);
+    }
+
 
     @Test
     void userRegister() {

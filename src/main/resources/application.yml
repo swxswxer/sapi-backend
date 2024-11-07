@@ -4,9 +4,9 @@ spring:
   # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://82.157.97.252:4406/sapi
+    url: jdbc:mysql://10.15.25.23:3306/sapi
     username: root
-    password: yang48690322
+    password: root
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
@@ -17,8 +17,8 @@ spring:
   # redis 配置
   redis:
     port: 6379
-    host: 82.157.97.252
-    password: 123321
+    host: 10.15.25.23
+    password: 48690322
     database: 0
 server:
   host:
@@ -40,16 +40,6 @@ sapi:
     access-key: swx
     secret-key: yang4869
 
-#dubbo:
-#  application:
-#    name: dubbo-springboot-demo-provider
-#  protocol:
-#    name: dubbo
-#    port: -1
-#  registry:
-#    id: nacos-registry
-#    address: nacos://10.15.25.23:8848
-
 dubbo:
   application:
     name: dubbo-springboot-demo-provider
@@ -57,7 +47,8 @@ dubbo:
     name: dubbo
     port: -1
   registry:
-    address: zookeeper://10.15.25.23:2181
-    # 配置中心连接时间改为10秒
-  config-center:
-    timeout: 10000
+    address: redis://10.15.25.23:6379
+#    # 配置中心连接时间改为10秒
+#    timeout: 5000
+#  config-center:
+#    timeout: 10000

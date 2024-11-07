@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 接口
@@ -204,7 +205,7 @@ public class InterfaceInfoController {
     }
 
     @GetMapping("/count")
-    public BaseResponse<Integer> getCount(){
+    public BaseResponse<Integer> getCount() {
         long count = interfaceInfoService.count();
         return ResultUtils.success((int) count);
     }
@@ -288,7 +289,7 @@ public class InterfaceInfoController {
      */
     @PostMapping("/invoke")
     public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
-                                                      HttpServletRequest request) {
+                                                    HttpServletRequest request) {
         if (interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0) {
             //请求参数错误
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
@@ -308,37 +309,26 @@ public class InterfaceInfoController {
         User loginUser = userService.getLoginUser(request);
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
-        SapiClient tempClient = new SapiClient(accessKey,secretKey);
+        SapiClient tempClient = new SapiClient(accessKey, secretKey);
+
         Gson gson = new Gson();
 //        com.swx.sapiclientsdk.model.City user = gson.fromJson(userRequestParams, com.swx.sapiclientsdk.model.City.class);
         QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",id);
+        queryWrapper.eq("id", id);
         InterfaceInfo interfaceInfo = interfaceInfoService.getOne(queryWrapper);
         String methodName = interfaceInfo.getName();
         Class<?>[] parameterTypes = new Class<?>[]{String.class};
 
-        String result ;
         Object invoke = null;
-        try {
-            if (requestParams==null){
-                Method method = tempClient.getClass().getMethod(methodName);
-                invoke = method.invoke(tempClient);
-            }else {
-            Method method = tempClient.getClass().getMethod(methodName, parameterTypes);
-            invoke = method.invoke(tempClient, requestParams);
-
-            }
-
-            result = (String) invoke;
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
-
+        String result = "";
+    if (Objects.equals(interfaceInfo.getMethod(), "GET")){
+         result = tempClient.getInvoke(interfaceInfo.getUrl(),requestParams);
+    }else if (Objects.equals(interfaceInfo.getMethod(), "POST")){
+        result = tempClient.postInvoke(interfaceInfo.getUrl(),requestParams);
+    }
         return ResultUtils.success(result);
 
     }
+
+
 }
